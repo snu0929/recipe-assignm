@@ -5,7 +5,7 @@ const SavedRecipes = () => {
     const [savedRecipes, setSavedRecipes] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/recipes/saved", {
+        fetch("https://recipe-assignm.onrender.com/api/recipes/saved", {
             credentials: "include",
         })
             .then((res) => res.json())
@@ -14,7 +14,7 @@ const SavedRecipes = () => {
     }, []);
 
     const handleRemoveRecipe = (recipeId) => {
-        fetch(`http://localhost:8080/api/recipes/saved/${recipeId}`, {
+        fetch(`https://recipe-assignm.onrender.com/api/recipes/saved/${recipeId}`, {
             method: "DELETE",
             credentials: "include",
         })

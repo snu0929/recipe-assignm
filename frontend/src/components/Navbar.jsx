@@ -7,7 +7,7 @@ const Navbar = () => {
     const location = useLocation();
 
     useEffect(() => {
-        fetch("http://localhost:8080/auth/user", { credentials: "include" })
+        fetch("https://recipe-assignm.onrender.com/auth/user", { credentials: "include" })
             .then((res) => res.json())
             .then((data) => {
                 if (data.displayName) setUser(data);
@@ -16,7 +16,7 @@ const Navbar = () => {
     }, []);
 
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:8080/auth/google";
+        window.location.href = "https://recipe-assignm.onrender.com/auth/google";
     };
 
     return (

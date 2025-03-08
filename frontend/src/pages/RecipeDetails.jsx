@@ -10,7 +10,7 @@ const RecipeDetails = () => {
     useEffect(() => {
         const fetchRecipeDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/recipes/details/${id}`);
+                const response = await fetch(`https://recipe-assignm.onrender.com/api/recipes/details/${id}`);
                 if (!response.ok) throw new Error("Failed to fetch recipe details");
 
                 const data = await response.json();
