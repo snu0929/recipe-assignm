@@ -10,10 +10,15 @@ const Navbar = () => {
         fetch("https://recipe-assignm.onrender.com/auth/user", { credentials: "include" })
             .then((res) => res.json())
             .then((data) => {
+                console.log("Fetched User Data:", data); // Debugging
                 if (data.displayName) setUser(data);
             })
-            .catch(() => setUser(null));
+            .catch((err) => {
+                console.error("Error fetching user:", err);
+                setUser(null);
+            });
     }, []);
+
 
     const handleGoogleLogin = () => {
         window.location.href = "https://recipe-assignm.onrender.com/auth/google";
