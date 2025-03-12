@@ -11,6 +11,7 @@ const Navbar = () => {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data)
+                localStorage.setItem("googleData", JSON.stringify(data))
                 if (data.displayName) setUser(data);
             })
             .catch((err) => {

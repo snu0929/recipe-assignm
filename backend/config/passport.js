@@ -7,16 +7,12 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL:
-        process.env.NODE_ENV === "production"
-          ? "https://recipe-assignm.onrender.com/auth/google/callback"
-          : "http://localhost:8080/auth/google/callback",
+      callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
         let user = await User.findOne({ googleId: profile.id });
         if (!user) {
-          // If not, create a new user
           user = new User({
             googleId: profile.id,
             displayName: profile.displayName,
