@@ -11,9 +11,15 @@ app.use(express.json());
 app.use(
   cors({
     origin: ["http://localhost:5173", "https://recipe-assignm.onrender.com"],
-    credentials: true, // Required to send cookies and session
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
 
 // Session setup
 app.use(
@@ -23,7 +29,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Secure only in production
+      secure: process.env.NODE_ENV === "production" ? true : false,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
@@ -43,7 +49,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect("http://localhost:5173"); // Redirect back to frontend after login
+    res.redirect(process.env.FRONTEND_URL); // Redirect back to frontend after login
   }
 );
 
