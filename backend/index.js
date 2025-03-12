@@ -43,7 +43,11 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect("http://localhost:5173");
+    const redirectURL =
+      process.env.NODE_ENV === "production"
+        ? "https://recipe-assignm.onrender.com"
+        : "http://localhost:5173";
+    res.redirect(redirectURL);
   }
 );
 
