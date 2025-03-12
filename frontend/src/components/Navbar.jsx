@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BACKEND_BASE_URL } from "../config";
+
 const Navbar = () => {
     const [user, setUser] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
+
+    // Fetch user data on component mount
     useEffect(() => {
         fetch(`${BACKEND_BASE_URL}/auth/user`, {
             method: "GET",
@@ -21,10 +24,22 @@ const Navbar = () => {
             });
     }, []);
 
-
-
+    // Google Login Handler
     const handleGoogleLogin = () => {
         window.location.href = `${BACKEND_BASE_URL}/auth/google`;
+    };
+
+    // Logout Handler
+    const handleLogout = () => {
+        fetch(`${BACKEND_BASE_URL}/auth/logout`, {
+            method: "GET",
+            credentials: "include", // Ensure cookies are sent
+        })
+            .then((res) => res.json())
+            .then(() => {
+                setUser(null); // Reset user state after logout
+            })
+            .catch((err) => console.error("Error logging out:", err));
     };
 
     return (
@@ -68,9 +83,24 @@ const Navbar = () => {
                     </Link>
                 </div>
 
-                {/* Login Button */}
+                {/* Auth Buttons */}
                 {user ? (
-                    <span>Welcome, {user.displayName}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span>Welcome, {user.displayName}</span>
+                        <button
+                            onClick={handleLogout}
+                            style={{
+                                background: "#ff4d4d",
+                                color: "white",
+                                padding: "6px 12px",
+                                border: "none",
+                                borderRadius: "5px",
+                                cursor: "pointer"
+                            }}
+                        >
+                            Logout
+                        </button>
+                    </div>
                 ) : (
                     <button
                         onClick={handleGoogleLogin}
@@ -87,7 +117,7 @@ const Navbar = () => {
                     </button>
                 )}
 
-
+                {/* Mobile Menu Button */}
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
                     style={{
@@ -129,6 +159,25 @@ const Navbar = () => {
                     >
                         Saved Recipes
                     </Link>
+                    {user && (
+                        <button
+                            onClick={() => {
+                                handleLogout();
+                                setMenuOpen(false);
+                            }}
+                            style={{
+                                background: "#ff4d4d",
+                                color: "white",
+                                padding: "6px 12px",
+                                border: "none",
+                                borderRadius: "5px",
+                                cursor: "pointer",
+                                marginTop: "5px"
+                            }}
+                        >
+                            Logout
+                        </button>
+                    )}
                 </div>
             )}
         </nav>

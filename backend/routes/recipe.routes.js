@@ -128,7 +128,6 @@ recipeRouter.put("/reorder", isAuthenticated, async (req, res) => {
   try {
     const { reorderedRecipes } = req.body; // Get new order from frontend
 
-    // Find the user in the database
     const user = await User.findOne({ googleId: req.user.googleId });
 
     if (!user) {
