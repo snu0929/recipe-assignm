@@ -4,7 +4,6 @@ const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
 const { connection } = require("./db");
-const MongoStore = require("connect-mongo");
 require("./config/passport");
 const { recipeRouter } = require("./routes/recipe.routes");
 const app = express();
@@ -22,33 +21,12 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URL, // ✅ Use MongoDB for session storage
-      ttl: 14 * 24 * 60 * 60, // Sessions expire in 14 days
-    }),
-    cookie: {
-      secure: true, // ✅ Important for HTTPS (set to false if testing locally)
-      httpOnly: true, // ✅ Prevents client-side JS access to cookies
-      sameSite: "none", // ✅ Important for cross-origin cookies
-    },
   })
 );
 
 // Initialize passport
-passport.serializeUser((user, done) => {
-  console.log("Serializing User:", user); // ✅ Debugging
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await User.findById(id);
-    console.log("Deserializing User:", user); // ✅ Debugging
-    done(null, user);
-  } catch (error) {
-    done(error, null);
-  }
-});
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.get(
@@ -74,6 +52,11 @@ app.get("/auth/user", (req, res) => {
 
 app.get("/auth/failure", (req, res) => {
   res.send("Failed to authenticate");
+});
+app.get("/auth/logout", (req, res) => {
+  req.logout(() => {
+    res.json({ message: "Logged out successfully" });
+  });
 });
 
 app.use("/api/recipes", recipeRouter);

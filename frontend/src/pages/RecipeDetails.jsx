@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { BACKEND_BASE_URL } from "../config";
 const RecipeDetails = () => {
     const { id } = useParams();
     const [recipe, setRecipe] = useState(null);
@@ -10,7 +10,7 @@ const RecipeDetails = () => {
     useEffect(() => {
         const fetchRecipeDetails = async () => {
             try {
-                const response = await fetch(`https://recipe-assignm.onrender.com/api/recipes/details/${id}`);
+                const response = await fetch(`${BACKEND_BASE_URL}/api/recipes/details/${id}`);
                 if (!response.ok) throw new Error("Failed to fetch recipe details");
 
                 const data = await response.json();

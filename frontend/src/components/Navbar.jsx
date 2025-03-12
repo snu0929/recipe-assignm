@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { BACKEND_BASE_URL } from "../config";
 const Navbar = () => {
     const [user, setUser] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
 
     useEffect(() => {
-        fetch("https://recipe-assignm.onrender.com/auth/user", { credentials: "include" })
+        fetch(`${BACKEND_BASE_URL}/auth/user`, { credentials: "include" })
             .then((res) => res.json())
             .then((data) => {
-                console.log("Fetched User Data:", data); // Debugging
                 if (data.displayName) setUser(data);
             })
             .catch((err) => {
@@ -21,7 +20,7 @@ const Navbar = () => {
 
 
     const handleGoogleLogin = () => {
-        window.location.href = "https://recipe-assignm.onrender.com/auth/google";
+        window.location.href = `${BACKEND_BASE_URL}/auth/google`;
     };
 
     return (
@@ -84,7 +83,7 @@ const Navbar = () => {
                     </button>
                 )}
 
-                {/* Mobile Menu Button */}
+
                 <button
                     onClick={() => setMenuOpen(!menuOpen)}
                     style={{

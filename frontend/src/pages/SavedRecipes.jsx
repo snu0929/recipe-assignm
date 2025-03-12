@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import { BACKEND_BASE_URL } from "../config";
 const SavedRecipes = () => {
     const [savedRecipes, setSavedRecipes] = useState([]);
 
     useEffect(() => {
-        fetch("https://recipe-assignm.onrender.com/api/recipes/saved", {
+        fetch(`${BACKEND_BASE_URL}/api/recipes/saved`, {
             credentials: "include",
         })
             .then((res) => res.json())
@@ -14,7 +14,7 @@ const SavedRecipes = () => {
     }, []);
 
     const handleRemoveRecipe = (recipeId) => {
-        fetch(`https://recipe-assignm.onrender.com/api/recipes/saved/${recipeId}`, {
+        fetch(`${BACKEND_BASE_URL}/api/recipes/saved/${recipeId}`, {
             method: "DELETE",
             credentials: "include",
         })

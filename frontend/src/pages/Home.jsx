@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { BACKEND_BASE_URL } from "../config";
+
 
 const Home = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -7,13 +9,14 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+
     const handleSearch = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError("");
 
         try {
-            const response = await fetch(`https://recipe-assignm.onrender.com/api/recipes/search?query=${searchQuery}`);
+            const response = await fetch(`${BACKEND_BASE_URL}/api/recipes/search?query=${searchQuery}`);
             const data = await response.json();
 
             if (response.ok) {
@@ -31,12 +34,12 @@ const Home = () => {
 
     const handleSaveRecipe = async (recipe) => {
         try {
-            const response = await fetch("https://recipe-assignm.onrender.com/api/recipes/save", {
+            const response = await fetch(`${BACKEND_BASE_URL}/api/recipes/save`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                credentials: "include", // Required for session authentication
+                credentials: "include",
                 body: JSON.stringify({
                     recipeId: recipe.id,
                     title: recipe.title,
