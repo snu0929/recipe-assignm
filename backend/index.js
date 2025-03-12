@@ -6,6 +6,7 @@ const passport = require("passport");
 const { connection } = require("./db");
 require("./config/passport");
 const { recipeRouter } = require("./routes/recipe.routes");
+
 const app = express();
 app.use(express.json());
 app.use(
@@ -23,26 +24,24 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production" ? true : false, // Only secure in production
+      secure: process.env.NODE_ENV === "production" ? true : false, // Secure only in production
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
 );
 
-// Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
+const redirectURL =
+  process.env.NODE_ENV === "production"
+    ? "https://recipe-frontend.onrender.com" // ✅ Update when frontend is deployed
+    : "http://localhost:5173";
+
 app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-
-const redirectURL =
-  process.env.NODE_ENV === "production"
-    ? "https://localhost:5173" // Once frontend is deployed, change it to the deployed frontend
-    : "http://localhost:5173";
 
 app.get(
   "/auth/google/callback",
@@ -63,10 +62,10 @@ app.get("/auth/user", (req, res) => {
 app.get("/auth/failure", (req, res) => {
   res.send("Failed to authenticate");
 });
+
 app.get("/auth/logout", (req, res) => {
-  req.logout(() => {
-    res.json({ message: "Logged out successfully" });
-  });
+  req.logout();
+  res.json({ message: "Logged out successfully" });
 });
 
 app.use("/api/recipes", recipeRouter);
