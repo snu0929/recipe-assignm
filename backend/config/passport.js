@@ -9,8 +9,8 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL:
         process.env.NODE_ENV === "production"
-          ? "https://recipe-assignm.onrender.com/auth/google/callback" // For production
-          : "http://localhost:8080/auth/google/callback", // For development
+          ? "https://recipe-assignm.onrender.com/auth/google/callback"
+          : "http://localhost:8080/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {

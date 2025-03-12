@@ -39,14 +39,15 @@ app.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
+const redirectURL =
+  process.env.NODE_ENV === "production"
+    ? "https://localhost:5173" // Once frontend is deployed, change it to the deployed frontend
+    : "http://localhost:5173";
+
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    const redirectURL =
-      process.env.NODE_ENV === "production"
-        ? "https://recipe-assignm.onrender.com" // For production
-        : "http://localhost:5173"; // For local frontend
     res.redirect(redirectURL);
   }
 );
