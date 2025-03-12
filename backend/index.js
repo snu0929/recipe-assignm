@@ -35,8 +35,8 @@ app.use(passport.session());
 
 const redirectURL =
   process.env.NODE_ENV === "production"
-    ? "https://recipe-frontend.onrender.com" // ✅ Update when frontend is deployed
-    : "http://localhost:5173";
+    ? "http://localhost:5173" // Use HTTP for local frontend
+    : "http://localhost:5173"; // Keep HTTP
 
 app.get(
   "/auth/google",
