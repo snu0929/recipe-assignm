@@ -23,7 +23,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Only true in production
+      secure: process.env.NODE_ENV === "production" ? true : false, // Only secure in production
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
