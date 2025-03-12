@@ -45,8 +45,8 @@ app.get(
   (req, res) => {
     const redirectURL =
       process.env.NODE_ENV === "production"
-        ? "https://recipe-assignm.onrender.com"
-        : "http://localhost:5173";
+        ? "https://recipe-assignm.onrender.com" // For production
+        : "http://localhost:5173"; // For local frontend
     res.redirect(redirectURL);
   }
 );
