@@ -10,6 +10,7 @@ const Navbar = () => {
         fetch(`${BACKEND_BASE_URL}/auth/user`, { credentials: "include" })
             .then((res) => res.json())
             .then((data) => {
+                console.log(data)
                 if (data.displayName) setUser(data);
             })
             .catch((err) => {
