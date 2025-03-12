@@ -5,13 +5,14 @@ const Navbar = () => {
     const [user, setUser] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const location = useLocation();
-
     useEffect(() => {
-        fetch(`${BACKEND_BASE_URL}/auth/user`, { credentials: "include" })
+        fetch(`${BACKEND_BASE_URL}/auth/user`, {
+            method: "GET",
+            credentials: "include", // Send cookies in cross-origin requests
+        })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data)
-                localStorage.setItem("googleData", JSON.stringify(data))
+                console.log("Fetched User Data:", data);
                 if (data.displayName) setUser(data);
             })
             .catch((err) => {
@@ -19,6 +20,7 @@ const Navbar = () => {
                 setUser(null);
             });
     }, []);
+
 
 
     const handleGoogleLogin = () => {

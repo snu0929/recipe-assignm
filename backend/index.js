@@ -48,6 +48,8 @@ app.get(
 );
 
 app.get("/auth/user", (req, res) => {
+  console.log("Session:", req.session);
+  console.log("User:", req.user);
   if (req.isAuthenticated()) {
     res.json(req.user);
   } else {
