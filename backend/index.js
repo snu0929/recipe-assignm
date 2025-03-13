@@ -10,7 +10,11 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://recipe-assignm.onrender.com"],
+    origin: [
+      "http://localhost:5173",
+      "https://recipe-assignm.onrender.com",
+      "https://recipe-4kkqb2cqr-snu0929s-projects.vercel.app",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
