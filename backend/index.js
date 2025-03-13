@@ -29,8 +29,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: process.env.FRONTEND_URL.startsWith("https"), // Only secure if the frontend URL is HTTPS
-      sameSite: process.env.FRONTEND_URL.startsWith("https") ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production" ? true : false,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
 );
